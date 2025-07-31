@@ -274,9 +274,9 @@ session_start();
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="logout.php">
+                                        <a class="dropdown-item" href="logout.php" onClick="return confirm('Are you sure you want to log out?');">
                                             <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Log Out</span>
+                                            <span class="align-middle" >Log Out</span>
                                         </a>
                                     </li>
                                 </ul>
