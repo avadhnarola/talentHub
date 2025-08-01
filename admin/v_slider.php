@@ -55,7 +55,6 @@ $data = mysqli_query($con, "select*from slider limit $start,$limit");
             <tr>
               <th>Id</th>
               <th>Title</th>
-              <th>Sub-Title</th>
               <th>Image</th>
               <th>Actions</th>
             </tr>
@@ -64,9 +63,9 @@ $data = mysqli_query($con, "select*from slider limit $start,$limit");
             <?php while ($row = mysqli_fetch_assoc($data)) { ?>
               <tr>
                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                  <strong><?php echo $row['slider_id']; ?></strong></td>
+                  <strong><?php echo $row['slider_id']; ?></strong>
+                </td>
                 <td><?php echo $row['title']; ?></td>
-                <td><?php echo $row['subtitle']; ?></td>
                 <td><img src="image/<?php echo $row['image']; ?>" width="150px" height="100px"></td>
                 <td><span class="badge bg-label-primary me-1">Active</span></td>
                 <td>

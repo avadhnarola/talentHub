@@ -1,10 +1,9 @@
 <?php
+
 include 'front_header.php';
 include './db.php';
 
-
 $slider_data = mysqli_query($con, "select * from slider limit 0,3");
-
 ?>
 
 <!-- slider_area_start -->
@@ -12,15 +11,17 @@ $slider_data = mysqli_query($con, "select * from slider limit 0,3");
     <div class="slider_active owl-carousel">
         <!-- Loop Through Slider Items -->
         <?php while ($row = mysqli_fetch_assoc($slider_data)) { ?>
-            <div class="single_slider d-flex align-items-center" style="background-image: url('../admin/image/<?php echo $row['image']; ?>');">
-
+            <div class="single_slider d-flex align-items-center"
+                style="background-image: url('./admin/image/<?php echo $row['image']; ?>');">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="slider_text">
                                 <h3 class="slider-title"><?php echo $row['title']; ?></h3>
+                                <div class="row">
                                 <a href="#" class="boxed-btn3">Get Start</a>
-                                <a href="#" class="boxed-btn4">Take a tour</a>
+                                <a href="#" class="boxed-btn4 ml-2">Take a tour</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -29,6 +30,7 @@ $slider_data = mysqli_query($con, "select * from slider limit 0,3");
         <?php } ?>
     </div>
 </div>
+
 <!-- slider_area_end -->
 
 <!-- service_area_start  -->
@@ -514,3 +516,18 @@ $slider_data = mysqli_query($con, "select * from slider limit 0,3");
 <!-- recent_news_area_end  -->
 
 <?php include 'front_footer.php'; ?>
+
+<script>
+    $(document).ready(function () {
+        $(".slider_active").owlCarousel({
+            items: 1,              // Show 1 slide at a time
+            loop: true,            // Infinite loop
+            autoplay: true,        // Enable auto-scrolling
+            autoplayTimeout: 4000, // Time between slides (4 seconds)
+            autoplayHoverPause: true, // Pause on hover
+            smartSpeed: 800,       // Smooth transition speed
+            nav: false,            // Hide next/prev arrows (optional)
+            dots: true             // Show navigation dots
+        });
+    });
+</script>

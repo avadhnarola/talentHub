@@ -18,7 +18,6 @@ if (isset($_GET['u_id'])) {
 
 if (isset($_POST['submit'])) {
     $title = $_POST['title'];
-    $subtitle = $_POST['subtitle'];
     $image = $_FILES['image']['name'];
 
 
@@ -26,12 +25,12 @@ if (isset($_POST['submit'])) {
 
 
     if($slider_id){
-      mysqli_query($con, "update slider set title='$title', subtitle='$subtitle', image='$image' where slider_id=$slider_id");
+      mysqli_query($con, "update slider set title='$title', image='$image' where slider_id=$slider_id");
       header("location:v_slider.php");
 
     }else{
 
-      mysqli_query($con, "insert into slider(title,subtitle,image) values('$title','$subtitle','$image')");
+      mysqli_query($con, "insert into slider(title,image) values('$title','$image')");
       header("location:./v_slider.php");
     }
    
@@ -61,12 +60,6 @@ if (isset($_POST['submit'])) {
                 </div>
               </div>
 
-              <div class="row mb-3">
-                <label class="col-sm-2 col-form-label" for="basic-default-company">Subtitle</label>
-                <div class="col-sm-10">
-                  <input type="text" name="subtitle" class="form-control" id="basic-default-company" required placeholder="Enter Subtitle" value="<?php echo @$u_data['subtitle']; ?>"/>
-                </div>
-              </div>
 
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="basic-default-email">Image</label>
@@ -76,7 +69,7 @@ if (isset($_POST['submit'])) {
                 </div>
               <div class="row justify-content-end">
                 <div class="col-sm-10">
-                  <input type="submit" class="btn btn-primary" value="Send" name="submit">
+                  <input type="submit" class="btn btn-primary " value="Send" name="submit">
                 </div>
               </div>
             </form>

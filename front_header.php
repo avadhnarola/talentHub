@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="css/slicknav.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="path/to/owl.carousel.min.js"></script>
+
 </head>
 
 <body>
@@ -44,7 +47,7 @@
                                     <p><span>+880166 253 232</span> <span>info@domain.com</span></p>
                                 </div>
                                 <div class="text_wrap">
-                                    <p><a href="#"> <i class="ti-user"></i>  Login</a> <a href="#">Register</a></p>
+                                    <p><a href="#"> <i class="ti-user"></i> Login</a> <a href="#">Register</a></p>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +70,7 @@
                                     <div class="main-menu  d-none d-lg-block">
                                         <nav>
                                             <ul id="navigation">
-                                                <li><a  href="index.php">home</a></li>
+                                                <li><a href="index.php">home</a></li>
                                                 <li><a href="Courses.html">Courses</a></li>
                                                 <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
