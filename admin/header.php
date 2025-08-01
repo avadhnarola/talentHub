@@ -1,6 +1,7 @@
 <?php
-include "db.php";
+include "../db.php";
 session_start();
+ob_start();
 
 ?>
 <!DOCTYPE html>
@@ -122,26 +123,29 @@ session_start();
                         </a>
                     </li>
 
+
+
                     <!-- Layouts -->
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon bx bx-book-open"></i>
-                            <div data-i18n="Layouts">Courses</div>
+                            <div data-i18n="Layouts">Slider</div>
                         </a>
-
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="addCourses.php" class="menu-link">
-                                    <div data-i18n="Without menu">Add Courses</div>
+                                <a href="add_slider.php" class="menu-link">
+                                    <div data-i18n="Without menu">Add Slider</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="viewCourses.php" class="menu-link">
-                                    <div data-i18n="Without navbar">View Courses</div>
+                                <a href="v_slider.php" class="menu-link">
+                                    <div data-i18n="Without navbar">View Slider</div>
                                 </a>
                             </li>
                         </ul>
                     </li>
+
+
 
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Pages</span>
