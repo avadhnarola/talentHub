@@ -48,6 +48,8 @@ $events = mysqli_query($con, "SELECT * FROM events LIMIT $offset, $limit");
                             <th>Time</th>
                             <th>Location</th>
                             <th>Date</th>
+                            <th>Description</th>
+                            <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -59,6 +61,9 @@ $events = mysqli_query($con, "SELECT * FROM events LIMIT $offset, $limit");
                                 <td><?php echo $Events['time']; ?></td>
                                 <td><?php echo $Events['location']; ?></td>
                                 <td><?php echo $Events['date']; ?></td>
+                                <td><?php echo $Events['description']; ?></td>
+                                <td><img src="image/<?php echo $Events['image']; ?>" alt="Event Image" width="100px" height="67px"></td>
+
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -66,8 +71,7 @@ $events = mysqli_query($con, "SELECT * FROM events LIMIT $offset, $limit");
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item"
-                                                href="addEvents.php?u_id=<?php echo $Events['id']; ?>">
+                                            <a class="dropdown-item" href="addEvents.php?u_id=<?php echo $Events['id']; ?>">
                                                 <i class="bx bx-edit-alt me-1"></i> Edit</a>
                                             <a class="dropdown-item"
                                                 href="deleteEvents.php?d_id=<?php echo $Events['id']; ?>">

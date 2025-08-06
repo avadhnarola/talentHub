@@ -58,7 +58,7 @@ $courses = mysqli_query($con, "SELECT * FROM courses LIMIT $offset, $limit");
                 <td><?php echo $course['category']; ?></td>
                 <td><?php echo $course['title']; ?></td>
                 <td><?php echo $course['description']; ?></td>
-                <td><img src="image/<?php echo $course['image']; ?>" alt="Course Image" width="100"></td>
+                <td><img src="image/<?php echo $course['image']; ?>" alt="Course Image" width="100px" height="130px"></td>
                 <td>
                   <div class="dropdown">
                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

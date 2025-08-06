@@ -19,13 +19,16 @@ if (isset($_POST['submit'])) {
     $date = $_POST['date'];
     $title = $_POST['title'];
     $location = $_POST['location'];
+    $description = $_POST['description'];
+    $img = $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'], "image/".$img);
 
     if ($event_id) {
-        mysqli_query($con, "UPDATE events SET title='$title', time='$time', location='$location', date='$date' WHERE id=$event_id");
+        mysqli_query($con, "UPDATE events SET title='$title', time='$time', location='$location', date='$date', description='$description' , image='$img' WHERE id=$event_id");
         header("Location: ./viewEvents.php");
     } else {
 
-        mysqli_query($con, "INSERT INTO Events (title,time,location, date) VALUES ('$title', '$time', '$location','$date')");
+        mysqli_query($con, "INSERT INTO Events (title,time,location, date, description,image) VALUES ('$title', '$time', '$location','$date','$description','$img')");
         header("Location: ./viewEvents.php");
         echo "<script>alert('Course added successfully!');</script>";
         exit();
