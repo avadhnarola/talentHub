@@ -8,7 +8,6 @@ if (!$_SESSION['admin_id']) {
 }
 
 if (isset($_GET['u_id'])) {
-
   $course_id = $_GET['u_id'];
   $u_data = mysqli_query($con, "select * from courses where id=$course_id");
   $u_data = mysqli_fetch_assoc($u_data);
@@ -21,7 +20,6 @@ if (isset($_POST['submit'])) {
   $description = $_POST['description'];
   $img = $_FILES['image']['name'];
   move_uploaded_file($_FILES['image']['tmp_name'], "image/$img");
-
   if ($course_id) {
     mysqli_query($con, "UPDATE courses SET category='$category', title='$title', description='$description', image='$img' WHERE id=$course_id");
     header("Location: ./viewCourses.php");
