@@ -19,8 +19,6 @@ if (isset($_GET['u_id'])) {
 if (isset($_POST['submit'])) {
     $title = $_POST['title'];
     $image = $_FILES['image']['name'];
-
-
     move_uploaded_file($_FILES['image']['tmp_name'], "image/$image");
 
 

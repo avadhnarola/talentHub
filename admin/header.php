@@ -128,18 +128,36 @@ ob_start();
                     <!-- Layouts -->
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon bx bx-book-open"></i>
+                            <i class="menu-icon bx bx-slider"></i> 
                             <div data-i18n="Layouts">Slider</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="add_slider.php" class="menu-link">
+                                <a href="addSlider.php" class="menu-link">
                                     <div data-i18n="Without menu">Add Slider</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="v_slider.php" class="menu-link">
+                                <a href="viewSlider.php" class="menu-link">
                                     <div data-i18n="Without navbar">View Slider</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon bx bx-book-open"></i>
+                            <div data-i18n="Layouts">Courses</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="addCourses.php" class="menu-link">
+                                    <div data-i18n="Without menu">Add Course</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="viewCourses.php" class="menu-link">
+                                    <div data-i18n="Without navbar">View Course</div>
                                 </a>
                             </li>
                         </ul>

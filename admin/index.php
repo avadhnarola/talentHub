@@ -1,26 +1,31 @@
 <?php
+
 include_once '../db.php';
 session_start();
 if (isset($_SESSION["admin_id"])) {
-  echo $_SESSION["admin_id"];
   header("location:dashboard.php");
+  exit();
 }
 
+$error = '';
 if (isset($_POST['submit'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  $checkemail = "select * from admin where email = '$email' and password = '$password'";
+  $checkemail = "SELECT * FROM admin WHERE email = '$email' AND password = '$password'";
   $res = mysqli_query($con, $checkemail);
   $data = mysqli_fetch_assoc($res);
 
-  $_SESSION['admin_id'] = $data['admin_id'];
-  $_SESSION['admin_name'] = $data['name'];
-  $_SESSION['admin_email'] = $data['email'];
-  // echo $_SESSION['name'];
-  header("Location:dashboard.php");
+  if ($data) {
+    $_SESSION['admin_id'] = $data['admin_id'];
+    $_SESSION['admin_name'] = $data['name'];
+    $_SESSION['admin_email'] = $data['email'];
+    header("Location:dashboard.php");
+    exit();
+  } else {
+    $error = "Incorrect email or password!";
+  }
 }
-
 ?>
 <!DOCTYPE html>
 
@@ -111,6 +116,14 @@ if (isset($_POST['submit'])) {
               </a>
             </div>
             <!-- /Logo -->
+
+            <?php if ($error): ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php echo $error; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <?php endif; ?>
+
             <h4 class="mb-2">Welcome Admin! 👋</h4>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
@@ -163,7 +176,4 @@ if (isset($_POST['submit'])) {
 
   <script src="assets/vendor/js/menu.js"></script>
   <script src="assets/js/main.js"></script>
-  <script async defer src="assets/js/script.js"></script>
-</body>
-
-</html>
+  <script async defer

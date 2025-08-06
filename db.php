@@ -1,3 +1,3 @@
 <?php
-$con = mysqli_connect("localhost", "root", "", "quizz");
+$con = mysqli_connect("localhost", "root", "", "e-learning");
 ?>

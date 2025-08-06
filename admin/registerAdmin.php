@@ -1,31 +1,55 @@
 <?php
 
-include_once 'db.php';
+include_once '../db.php';
+
+$error = '';
+$success = '';
+
 if (isset($_GET['u_id'])) {
-
-    $id = $_GET['u_id'];
-    $u_data = mysqli_query($con, "select * from admin where id=$id");
-    $u_data = mysqli_fetch_assoc($u_data);
+  $id = $_GET['u_id'];
+  $u_data = mysqli_query($con, "SELECT * FROM admin WHERE id=$id");
+  $u_data = mysqli_fetch_assoc($u_data);
 }
+
 if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $gender = $_POST['gender'];
-    
+  $name = trim($_POST['name']);
+  $email = trim($_POST['email']);
+  $password = trim($_POST['password']);
+  $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
 
-    if (isset($_GET['u_id'])) {
-        mysqli_query($con, "update admin set name='$name',email='$email',password='$password',gender='$gender' where id = $id");
-        header("location:admin.php");
-    } else {
-        mysqli_query($con, "insert into admin(name,email,password,gender) values('$name','$email','$password','$gender')");
+  // Validation
+  if (empty($name) || empty($email) || empty($password) || empty($gender)) {
+    $error = "All fields are required!";
+  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $error = "Invalid email format!";
+  } elseif (strlen($password) < 6) {
+    $error = "Password must be at least 6 characters!";
+  } else {
+    // Check for duplicate email on insert
+    if (!isset($_GET['u_id'])) {
+      $check = mysqli_query($con, "SELECT * FROM admin WHERE email='$email'");
+      if (mysqli_num_rows($check) > 0) {
+        $error = "Email already exists!";
+      }
     }
-    header("location: index.php");
+  }
+
+  if (!$error) {
+    if (isset($_GET['u_id'])) {
+      mysqli_query($con, "UPDATE admin SET name='$name',email='$email',password='$password',gender='$gender' WHERE id = $id");
+      header("location:admin.php");
+      exit();
+    } else {
+      mysqli_query($con, "INSERT INTO admin(name,email,password,gender) VALUES('$name','$email','$password','$gender')");
+      $success = "Registration successful! You can now login.";
+      header("location: index.php");
+      exit();
+    }
+  }
 }
-$data = mysqli_query($con, "select * from admin");
+$data = mysqli_query($con, "SELECT * FROM admin");
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default" data-assets-path="assets/"
@@ -66,6 +90,7 @@ $data = mysqli_query($con, "select * from admin");
             <div class="app-brand justify-content-center">
               <a href="index.html" class="app-brand-link gap-2">
                 <span class="app-brand-logo demo">
+                  <!-- SVG Logo here -->
                   <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
@@ -113,51 +138,67 @@ $data = mysqli_query($con, "select * from admin");
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-2">admin Form</h4> <br>
+            <h4 class="mb-2">Admin Form</h4> <br>
 
-<form id="formAuthentication" class="mb-3" action="" method="POST">
-  <div class="mb-3">
-    <label for="username" class="form-label">Username</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your username"
-      value="<?= isset($u_data) ? $u_data['name'] : '' ?>" required />
-  </div>
+            <?php if ($error): ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= $error ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <?php endif; ?>
+            <?php if ($success): ?>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= $success ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <?php endif; ?>
 
-  <div class="mb-3">
-    <label for="email" class="form-label">Email</label>
-    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
-      value="<?= isset($u_data) ? $u_data['email'] : '' ?>" required />
-  </div>
+            <form id="formAuthentication" class="mb-3" action="" method="POST" novalidate>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your username"
+                  value="<?= isset($u_data) ? htmlspecialchars($u_data['name']) : (isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '') ?>"
+                  required />
+              </div>
 
-  <div class="mb-3 form-password-toggle">
-    <label class="form-label" for="password">Password</label>
-    <div class="input-group input-group-merge">
-      <input type="password" id="password" class="form-control" name="password"
-        placeholder="••••••••" value="<?= isset($u_data) ? $u_data['password'] : '' ?>" required />
-      <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-    </div>
-  </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                  value="<?= isset($u_data) ? htmlspecialchars($u_data['email']) : (isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '') ?>"
+                  required />
+              </div>
 
-  <div class="mb-3">
-    <label class="form-label">Gender</label><br />
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="gender" id="gender_male" value="Male"
-        <?= (isset($u_data) && $u_data['gender'] == 'Male') ? 'checked' : '' ?> required />
-      <label class="form-check-label" for="gender_male">Male</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="gender" id="gender_female" value="Female"
-        <?= (isset($u_data) && $u_data['gender'] == 'Female') ? 'checked' : '' ?> />
-      <label class="form-check-label" for="gender_female">Female</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="gender" id="gender_other" value="Other"
-        <?= (isset($u_data) && $u_data['gender'] == 'Other') ? 'checked' : '' ?> />
-      <label class="form-check-label" for="gender_other">Other</label>
-    </div>
-  </div>
-  <button type="submit" name="submit" class="btn btn-primary d-grid w-100">Submit</button>
-</form>
+              <div class="mb-3 form-password-toggle">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-group input-group-merge">
+                  <input type="password" id="password" class="form-control" name="password" placeholder="••••••••"
+                    value="<?= isset($u_data) ? htmlspecialchars($u_data['password']) : (isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '') ?>"
+                    required minlength="6" />
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+                <small class="text-muted">Password must be at least 6 characters.</small>
+              </div>
 
+              <div class="mb-3">
+                <label class="form-label">Gender</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="gender" id="gender_male" value="Male"
+                    <?= ((isset($u_data) && $u_data['gender'] == 'Male') || (isset($_POST['gender']) && $_POST['gender'] == 'Male')) ? 'checked' : '' ?> required />
+                  <label class="form-check-label" for="gender_male">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="gender" id="gender_female" value="Female"
+                    <?= ((isset($u_data) && $u_data['gender'] == 'Female') || (isset($_POST['gender']) && $_POST['gender'] == 'Female')) ? 'checked' : '' ?> />
+                  <label class="form-check-label" for="gender_female">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="gender" id="gender_other" value="Other"
+                    <?= ((isset($u_data) && $u_data['gender'] == 'Other') || (isset($_POST['gender']) && $_POST['gender'] == 'Other')) ? 'checked' : '' ?> />
+                  <label class="form-check-label" for="gender_other">Other</label>
+                </div>
+              </div>
+              <button type="submit" name="submit" class="btn btn-primary d-grid w-100">Submit</button>
+            </form>
 
             <p class="text-center">
               <span>Already have an account?</span>
@@ -172,25 +213,13 @@ $data = mysqli_query($con, "select * from admin");
     </div>
   </div>
 
-
   <!-- Core JS -->
-  <!-- build:js assets/vendor/js/core.js -->
   <script src="assets/vendor/libs/jquery/jquery.js"></script>
   <script src="assets/vendor/libs/popper/popper.js"></script>
   <script src="assets/vendor/js/bootstrap.js"></script>
   <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
   <script src="assets/vendor/js/menu.js"></script>
-  <!-- endbuild -->
-
-  <!-- Vendors JS -->
-
-  <!-- Main JS -->
   <script src="assets/js/main.js"></script>
-
-  <!-- Page JS -->
-
-  <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="assets/js/script.js"></script>
 </body>
 

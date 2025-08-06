@@ -1,5 +1,5 @@
-<!doctype html>
-<html class="no-js" lang="zxx">
+<!doctype php>
+<php class="no-js" lang="zxx">
 
 <head>
     <meta charset="utf-8">
@@ -71,22 +71,22 @@
                                         <nav>
                                             <ul id="navigation">
                                                 <li><a href="index.php">home</a></li>
-                                                <li><a href="Courses.html">Courses</a></li>
+                                                <li><a href="Courses.php">Courses</a></li>
                                                 <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
-                                                        <li><a href="blog.html">blog</a></li>
-                                                        <li><a href="single-blog.html">single-blog</a></li>
+                                                        <li><a href="blog.php">blog</a></li>
+                                                        <li><a href="single-blog.php">single-blog</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
-                                                        <li><a href="Event.html">Event</a></li>
-                                                        <li><a href="event_details.html">Event Details</a></li>
-                                                        <li><a href="Admissions.html">Admissions</a></li>
-                                                        <li><a href="elements.html">elements</a></li>
+                                                        <li><a href="Event.php">Event</a></li>
+                                                        <li><a href="event_details.php">Event Details</a></li>
+                                                        <li><a href="Admissions.php">Admissions</a></li>
+                                                        <li><a href="elements.php">elements</a></li>
                                                     </ul>
                                                 </li>
-                                                <li><a href="contact.html">Contact</a></li>
+                                                <li><a href="contact.php">Contact</a></li>
                                             </ul>
                                         </nav>
                                     </div>
