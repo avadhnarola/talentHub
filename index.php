@@ -6,7 +6,7 @@ include './db.php';
 $slider_data = mysqli_query($con, "select * from slider limit 0,3");
 $category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
 $courses = mysqli_query($con, "SELECT * FROM courses");
-
+$latestCOurses = mysqli_query($con, "SELECT * FROM courses ORDER BY id DESC LIMIT 2");
 ?>
 
 <!-- slider_area_start -->
@@ -176,26 +176,16 @@ $courses = mysqli_query($con, "SELECT * FROM courses");
                                 exercitation.</p>
                         </div>
                         <div class="coures_wrap d-flex">
-                            <div class="single_wrap">
-                                <div class="icon">
-                                    <i class="flaticon-lab"></i>
+                            <?php while ($row = mysqli_fetch_assoc($latestCOurses)) { ?>
+                                <div class="single_wrap">
+                                    <div class="icon">
+                                        <i class="flaticon-lab"></i>
+                                    </div>
+                                    <h4><?php echo $row['title']; ?></h4>
+                                    <p><?php echo $row['description']; ?></p>
+                                    <a href="#" class="boxed-btn5">Apply NOw</a>
                                 </div>
-                                <h4>Bachelor of <br>
-                                    Graphic Design</h4>
-                                <p>Lorem ipsum dolor sit amet, sectetur adipiscing elit, sed do eiusmod tpor incididunt
-                                    ut piscing vcs.</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                            <div class="single_wrap">
-                                <div class="icon">
-                                    <i class="flaticon-lab"></i>
-                                </div>
-                                <h4>Bachelor of <br>
-                                    Graphic Design</h4>
-                                <p>Lorem ipsum dolor sit amet, sectetur adipiscing elit, sed do eiusmod tpor incididunt
-                                    ut piscing vcs.</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -219,13 +209,14 @@ $courses = mysqli_query($con, "SELECT * FROM courses");
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-10">
+                
                 <div class="single_event d-flex align-items-center">
                     <div class="date text-center">
                         <span>02</span>
                         <p>Dec, 2020</p>
                     </div>
                     <div class="event_info">
-                        <a href="event_details.html">
+                        <a href="event_details.php">
                             <h4>How to speake like a nativespeaker?</h4>
                         </a>
                         <p><span> <i class="flaticon-clock"></i> 10:30 pm</span> <span> <i

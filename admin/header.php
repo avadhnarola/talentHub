@@ -162,6 +162,24 @@ ob_start();
                             </li>
                         </ul>
                     </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon bx bx-bell"></i> 
+                            <div data-i18n="Layouts">Events</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="addEvents.php" class="menu-link">
+                                    <div data-i18n="Without menu">Add Events</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="viewEvents.php" class="menu-link">
+                                    <div data-i18n="Without navbar">View Events</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
 
 

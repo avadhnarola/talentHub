@@ -1,5 +1,10 @@
 <?php
 include_once 'front_header.php';
+include_once './db.php';
+$events = mysqli_query($con, "SELECT * FROM events ORDER BY date ASC LIMIT 3");
+if (!$events) {
+    die("Query failed: " . mysqli_error($con));
+}
 ?>
 
 <!-- bradcam_area_start  -->
@@ -30,48 +35,29 @@ include_once 'front_header.php';
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <div class="single_event d-flex align-items-center">
-                    <div class="date text-center">
-                        <span>02</span>
-                        <p>Dec, 2020</p>
+                <?php while ($event = mysqli_fetch_assoc($events)) { ?>
+                    <div class="single_event d-flex align-items-center">
+                        <div class="date text-center">
+                            <span><?php echo date('d', strtotime($event['date'])); ?></span>
+                            <p style="width:100px;"><?php echo date('M, Y', strtotime($event['date'])); ?></p>
+                        </div>
+                        <div class="event_info">
+                            <a href="event_details.php?id=<?php echo $event['id']; ?>">
+                                <h4><?php echo $event['title']; ?></h4>
+                            </a>
+                            <p>
+                                <span> <i class="flaticon-clock"></i>
+                                    <?php echo date("g:i A", strtotime($event['time'])); ?>
+                                </span>
+
+                                <span> <i class="flaticon-calendar"></i>
+                                    <?php echo date('d M Y', strtotime($event['date'])); ?> </span>
+                                <span> <i class="flaticon-placeholder"></i> <?php echo $event['location']; ?> </span>
+                            </p>
+                        </div>
                     </div>
-                    <div class="event_info">
-                        <a href="event_details.html">
-                            <h4>How to speake like a nativespeaker?</h4>
-                        </a>
-                        <p><span> <i class="flaticon-clock"></i> 10:30 pm</span> <span> <i
-                                    class="flaticon-calendar"></i> 21Nov 2020 </span> <span> <i
-                                    class="flaticon-placeholder"></i> AH Oditoriam</span> </p>
-                    </div>
-                </div>
-                <div class="single_event d-flex align-items-center">
-                    <div class="date text-center">
-                        <span>03</span>
-                        <p>Dec, 2020</p>
-                    </div>
-                    <div class="event_info">
-                        <a href="event_details.html">
-                            <h4>How to speake like a nativespeaker?</h4>
-                        </a>
-                        <p><span> <i class="flaticon-clock"></i> 10:30 pm</span> <span> <i
-                                    class="flaticon-calendar"></i> 21Nov 2020 </span> <span> <i
-                                    class="flaticon-placeholder"></i> AH Oditoriam</span> </p>
-                    </div>
-                </div>
-                <div class="single_event d-flex align-items-center">
-                    <div class="date text-center">
-                        <span>10</span>
-                        <p>Dec, 2020</p>
-                    </div>
-                    <div class="event_info">
-                        <a href="event_details.html">
-                            <h4>How to speake like a nativespeaker?</h4>
-                        </a>
-                        <p><span> <i class="flaticon-clock"></i> 10:30 pm</span> <span> <i
-                                    class="flaticon-calendar"></i> 21Nov 2020 </span> <span> <i
-                                    class="flaticon-placeholder"></i> AH Oditoriam</span> </p>
-                    </div>
-                </div>
+                <?php } ?>
+
             </div>
         </div>
     </div>
