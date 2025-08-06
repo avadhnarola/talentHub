@@ -3,7 +3,6 @@ include_once 'front_header.php';
 include './db.php';
 
 $courses = mysqli_query($con, "SELECT * FROM courses limit 6");
-// Fetch categories
 $category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
 
 ?>

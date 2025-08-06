@@ -4,6 +4,9 @@ include 'front_header.php';
 include './db.php';
 
 $slider_data = mysqli_query($con, "select * from slider limit 0,3");
+$category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
+$courses = mysqli_query($con, "SELECT * FROM courses limit 6");
+
 ?>
 
 <!-- slider_area_start -->
@@ -19,8 +22,8 @@ $slider_data = mysqli_query($con, "select * from slider limit 0,3");
                             <div class="slider_text">
                                 <h3 class="slider-title"><?php echo $row['title']; ?></h3>
                                 <div class="row">
-                                <a href="#" class="boxed-btn3">Get Start</a>
-                                <a href="#" class="boxed-btn4 ml-2">Take a tour</a>
+                                    <a href="#" class="boxed-btn3">Get Start</a>
+                                    <a href="#" class="boxed-btn4 ml-2">Take a tour</a>
                                 </div>
                             </div>
                         </div>
@@ -89,203 +92,63 @@ $slider_data = mysqli_query($con, "select * from slider limit 0,3");
             <div class="col-lg-12">
                 <nav class="custom_tabs text-center">
                     <div class="nav" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                            role="tab" aria-controls="nav-home" aria-selected="true">Graduate </a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-                            role="tab" aria-controls="nav-profile" aria-selected="false">Postgraduate </a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
-                            role="tab" aria-controls="nav-contact" aria-selected="false">PHD Scholarships</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact2"
-                            role="tab" aria-controls="nav-contact" aria-selected="false">Training</a>
+                        <?php
+                        mysqli_data_seek($category_query, 0); // reset pointer
+                        $first = true;
+                        while ($cat = mysqli_fetch_assoc($category_query)) {
+                            $category = $cat['category'];
+                            $id = 'nav-' . strtolower(str_replace(' ', '-', $category));
+                            $active = $first ? 'active' : '';
+                            $aria_selected = $first ? 'true' : 'false';
+                            ?>
+                            <a class="nav-item nav-link <?php echo $active; ?>" id="<?php echo $id; ?>-tab"
+                                data-toggle="tab" href="#<?php echo $id; ?>" role="tab" aria-controls="<?php echo $id; ?>"
+                                aria-selected="<?php echo $aria_selected; ?>">
+                                <?php echo htmlspecialchars($category); ?>
+                            </a>
+                            <?php $first = false;
+                        } ?>
                     </div>
                 </nav>
             </div>
         </div>
+
+        <!-- Tab Content -->
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/1.png" alt="">
+            <?php
+            mysqli_data_seek($category_query, 0); // reset pointer
+            $first = true;
+            while ($cat = mysqli_fetch_assoc($category_query)) {
+                $category = $cat['category'];
+                $id = 'nav-' . strtolower(str_replace(' ', '-', $category));
+                $active = $first ? 'show active' : '';
+                ?>
+                <div class="tab-pane fade <?php echo $active; ?>" id="<?php echo $id; ?>" role="tabpanel"
+                    aria-labelledby="<?php echo $id; ?>-tab">
+                    <div class="row">
+                        <?php
+                        $course_query = mysqli_query($con, "SELECT * FROM courses WHERE category='" . mysqli_real_escape_string($con, $category) . "'");
+                        while ($row = mysqli_fetch_assoc($course_query)) {
+                            ?>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="single__program">
+                                    <div class="program_thumb">
+                                        <img src="./admin/image/<?php echo $row['image']; ?>" alt=""
+                                            style="height: 250px; width: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="program__content">
+                                        <span><?php echo htmlspecialchars($row['category']); ?></span>
+                                        <h4><?php echo htmlspecialchars($row['title']); ?></h4>
+                                        <p><?php echo htmlspecialchars($row['description']); ?></p>
+                                        <a href="#" class="boxed-btn5">Apply Now</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Chemical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/2.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Mechanical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/3.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Bio engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/1.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Chemical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/3.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Mechanical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/2.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Bio engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/3.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Chemical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/2.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Mechanical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/1.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Bio engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/2.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Chemical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/1.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Mechanical engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single__program">
-                            <div class="program_thumb">
-                                <img src="img/program/3.png" alt="">
-                            </div>
-                            <div class="program__content">
-                                <span>Agriculture</span>
-                                <h4>Bio engneering</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut</p>
-                                <a href="#" class="boxed-btn5">Apply NOw</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <?php $first = false;
+            } ?>
         </div>
 
         <div class="row">
