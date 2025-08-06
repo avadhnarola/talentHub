@@ -83,7 +83,6 @@
                                                         <li><a href="Event.php">Event</a></li>
                                                         <li><a href="event_details.php">Event Details</a></li>
                                                         <li><a href="Admissions.php">Admissions</a></li>
-                                                        <li><a href="elements.php">elements</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a href="contact.php">Contact</a></li>

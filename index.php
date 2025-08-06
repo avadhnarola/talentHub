@@ -5,7 +5,7 @@ include './db.php';
 
 $slider_data = mysqli_query($con, "select * from slider limit 0,3");
 $category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
-$courses = mysqli_query($con, "SELECT * FROM courses limit 6");
+$courses = mysqli_query($con, "SELECT * FROM courses");
 
 ?>
 
@@ -154,7 +154,7 @@ $courses = mysqli_query($con, "SELECT * FROM courses limit 6");
         <div class="row">
             <div class="col-lg-12">
                 <div class="course_all_btn text-center">
-                    <a href="Courses.html" class="boxed-btn4">View All course</a>
+                    <a href="courses.php" class="boxed-btn4">View All course</a>
                 </div>
             </div>
         </div>
