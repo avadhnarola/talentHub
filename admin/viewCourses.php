@@ -67,7 +67,7 @@ $courses = mysqli_query($con, "SELECT * FROM courses LIMIT $offset, $limit");
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="addCourses.php?u_id=<?php echo $course['id']; ?>">
                         <i class="bx bx-edit-alt me-1"></i> Edit</a>
-                      <a class="dropdown-item" href="deleteCourse.php?d_id=<?php echo $course['id']; ?>">
+                      <a class="dropdown-item" href="viewCourse.php?d_id=<?php echo $course['id']; ?>" onclick="return confirm('Are you sure you want to delete this course ?');">
                         <i class="bx bx-trash me-1"></i> Delete</a>
                     </div>
                   </div>

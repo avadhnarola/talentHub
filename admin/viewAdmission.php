@@ -7,11 +7,11 @@ if (!$_SESSION['admin_id']) {
     exit();
 }
 
-// Delete event
+// Delete course
 if (isset($_GET['d_id'])) {
-    $event_id = $_GET['d_id'];
-    mysqli_query($con, "DELETE FROM events WHERE id=$event_id");
-    header("Location: ./viewEvents.php");
+    $course_id = $_GET['d_id'];
+    mysqli_query($con, "DELETE FROM admission WHERE id=$course_id");
+    header("Location: ./viewAdmission.php");
     exit();
 }
 
@@ -21,48 +21,46 @@ $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
 // Get total records for pagination
-$total_result = mysqli_query($con, "SELECT COUNT(*) as total FROM events");
+$total_result = mysqli_query($con, "SELECT COUNT(*) as total FROM admission");
 $total_row = mysqli_fetch_assoc($total_result);
-$total_events = $total_row['total'];
-$total_pages = ceil($total_events / $limit);
+$total_admission = $total_row['total'];
+$total_pages = ceil($total_admission / $limit);
 
 // Fetch limited rows
-$events = mysqli_query($con, "SELECT * FROM events LIMIT $offset, $limit");
+$admissions = mysqli_query($con, "SELECT * FROM admission LIMIT $offset, $limit");
 ?>
 
 <!-- Content wrapper -->
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Events /</span> View Events</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admission /</span> View Admission</h4>
 
         <!-- Hoverable Table rows -->
         <div class="card">
-            <h5 class="card-header">View Events</h5>
+            <h5 class="card-header">View Admissions</h5>
             <div class="table-responsive text-nowrap">
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Title</th>
-                            <th>Time</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Image</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone No</th>
+                            <th>Email</th>
+                            <th>Application Message</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <?php while ($Events = mysqli_fetch_assoc($events)) { ?>
+                        <?php while ($admission = mysqli_fetch_assoc($admissions)) { ?>
                             <tr>
-                                <td><?php echo $Events['id']; ?></td>
-                                <td><?php echo $Events['title']; ?></td>
-                                <td><?php echo $Events['time']; ?></td>
-                                <td><?php echo $Events['location']; ?></td>
-                                <td><?php echo $Events['date']; ?></td>
-                                <td><?php echo $Events['description']; ?></td>
-                                <td><img src="image/<?php echo $Events['image']; ?>" alt="Event Image" width="100px" height="67px"></td>
+                                <td><?php echo $admission['id']; ?></td>
+                                <td><?php echo $admission['fname']; ?></td>
+                                <td><?php echo $admission['lname']; ?></td>
+                                <td><?php echo $admission['phoneNo']; ?></td>
+                                <td><?php echo $admission['email']; ?></td>
+                                <td><?php echo $admission['application']; ?></td>
 
                                 <td>
                                     <div class="dropdown">
@@ -71,13 +69,14 @@ $events = mysqli_query($con, "SELECT * FROM events LIMIT $offset, $limit");
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="addEvents.php?u_id=<?php echo $Events['id']; ?>">
-                                                <i class="bx bx-edit-alt me-1"></i> Edit</a>
                                             <a class="dropdown-item"
-                                                href="viewEvents.php?d_id=<?php echo $Events['id']; ?>"onclick="return confirm('Are you sure you want to delete this Event ?');">
+                                                href="viewAdmission.php?d_id=<?php echo $admission['id']; ?>"
+                                                onclick="return confirm('Are you sure you want to delete this Admission ?');">
                                                 <i class="bx bx-trash me-1"></i> Delete</a>
+
                                         </div>
                                     </div>
+
                                 </td>
                             </tr>
                         <?php } ?>

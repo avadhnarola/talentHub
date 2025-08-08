@@ -181,6 +181,15 @@ ob_start();
                         </ul>
                     </li>
 
+                    <li class="menu-item">
+                        <a href="viewAdmission.php" class="menu-link ">
+                            <i class="menu-icon bx bxs-school" ></i> 
+                            <div data-i18n="Layouts">Admission</div>
+                        </a>
+                    </li>
+
+                    
+
 
 
                     <li class="menu-header small text-uppercase">
