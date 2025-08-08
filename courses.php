@@ -85,7 +85,7 @@ $category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
                                                 <span><?php echo htmlspecialchars($row['category']); ?></span>
                                                 <h4><?php echo htmlspecialchars($row['title']); ?></h4>
                                                 <p><?php echo htmlspecialchars($row['description']); ?></p>
-                                                <a href="#" class="boxed-btn5">Apply Now</a>
+                                                <a href="course-details.php?id=<?php echo $row['id']; ?>" class="boxed-btn5">Apply Now</a>
                                             </div>
                                         </div>
                                     </div>
