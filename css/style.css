@@ -298,7 +298,7 @@ h3 {
 
 /* line 210, ../../Arafath/CL/january 2020/243.Education/HTML/scss/theme-default.scss */
 .section__padding {
-  padding-top: 200px;
+  padding-top: 100px;
   padding-bottom: 200px;
 }
 
@@ -2539,6 +2539,9 @@ h3 {
   color: #7A838B;
   font-weight: 300;
   font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* line 98, ../../Arafath/CL/january 2020/243.Education/HTML/scss/_footer.scss */

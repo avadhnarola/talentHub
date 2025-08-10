@@ -48,7 +48,7 @@ if (!$course) {
                     <div class="course_thumb">
                         <img class="img-fluid" src="admin/image/<?php echo htmlspecialchars($course['image']); ?>" alt="<?php echo htmlspecialchars($course['title']); ?>">
                     </div>
-                    <div class="course_content">
+                    <div class="course_content mt-3">
                         <h3>About this course</h3>
                         <p><?php echo nl2br(htmlspecialchars($course['description'])); ?></p>
                         

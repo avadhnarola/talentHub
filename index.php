@@ -174,7 +174,7 @@ if (isset($_POST['submit'])) {
 <!--/ service_area_start  -->
 
 <!-- popular_program_area_start  -->
-<div class="popular_program_area section__padding">
+<div class="popular_program_area section__padding program__page">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -183,6 +183,8 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
         </div>
+
+        <!-- Tabs -->
         <div class="row">
             <div class="col-lg-12">
                 <nav class="custom_tabs text-center">
@@ -235,7 +237,8 @@ if (isset($_POST['submit'])) {
                                         <span><?php echo htmlspecialchars($row['category']); ?></span>
                                         <h4><?php echo htmlspecialchars($row['title']); ?></h4>
                                         <p><?php echo htmlspecialchars($row['description']); ?></p>
-                                        <a href="#" class="boxed-btn5">Apply Now</a>
+                                        <a href="course-details.php?id=<?php echo $row['id']; ?>" class="boxed-btn5">Apply
+                                            Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -244,14 +247,6 @@ if (isset($_POST['submit'])) {
                 </div>
                 <?php $first = false;
             } ?>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="course_all_btn text-center">
-                    <a href="courses.php" class="boxed-btn4">View All course</a>
-                </div>
-            </div>
         </div>
     </div>
 </div>

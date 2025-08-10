@@ -46,12 +46,12 @@ $category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
                             $active = $first ? 'active' : '';
                             $aria_selected = $first ? 'true' : 'false';
                             ?>
-                                <a class="nav-item nav-link <?php echo $active; ?>" id="<?php echo $id; ?>-tab"
-                                   data-toggle="tab" href="#<?php echo $id; ?>" role="tab"
-                                   aria-controls="<?php echo $id; ?>" aria-selected="<?php echo $aria_selected; ?>">
-                                    <?php echo htmlspecialchars($category); ?>
-                                </a>
-                                <?php $first = false;
+                            <a class="nav-item nav-link <?php echo $active; ?>" id="<?php echo $id; ?>-tab"
+                                data-toggle="tab" href="#<?php echo $id; ?>" role="tab" aria-controls="<?php echo $id; ?>"
+                                aria-selected="<?php echo $aria_selected; ?>">
+                                <?php echo htmlspecialchars($category); ?>
+                            </a>
+                            <?php $first = false;
                         } ?>
                     </div>
                 </nav>
@@ -68,31 +68,32 @@ $category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
                 $id = 'nav-' . strtolower(str_replace(' ', '-', $category));
                 $active = $first ? 'show active' : '';
                 ?>
-                    <div class="tab-pane fade <?php echo $active; ?>" id="<?php echo $id; ?>" role="tabpanel"
-                         aria-labelledby="<?php echo $id; ?>-tab">
-                        <div class="row">
-                            <?php
-                            $course_query = mysqli_query($con, "SELECT * FROM courses WHERE category='" . mysqli_real_escape_string($con, $category) . "'");
-                            while ($row = mysqli_fetch_assoc($course_query)) {
-                                ?>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="single__program">
-                                            <div class="program_thumb">
-                                                <img src="./admin/image/<?php echo $row['image']; ?>" alt=""
-                                                     style="height: 250px; width: 100%; object-fit: cover;">
-                                            </div>
-                                            <div class="program__content">
-                                                <span><?php echo htmlspecialchars($row['category']); ?></span>
-                                                <h4><?php echo htmlspecialchars($row['title']); ?></h4>
-                                                <p><?php echo htmlspecialchars($row['description']); ?></p>
-                                                <a href="course-details.php?id=<?php echo $row['id']; ?>" class="boxed-btn5">Apply Now</a>
-                                            </div>
-                                        </div>
+                <div class="tab-pane fade <?php echo $active; ?>" id="<?php echo $id; ?>" role="tabpanel"
+                    aria-labelledby="<?php echo $id; ?>-tab">
+                    <div class="row">
+                        <?php
+                        $course_query = mysqli_query($con, "SELECT * FROM courses WHERE category='" . mysqli_real_escape_string($con, $category) . "'");
+                        while ($row = mysqli_fetch_assoc($course_query)) {
+                            ?>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="single__program">
+                                    <div class="program_thumb">
+                                        <img src="./admin/image/<?php echo $row['image']; ?>" alt=""
+                                            style="height: 250px; width: 100%; object-fit: cover;">
                                     </div>
-                            <?php } ?>
-                        </div>
+                                    <div class="program__content">
+                                        <span><?php echo htmlspecialchars($row['category']); ?></span>
+                                        <h4><?php echo htmlspecialchars($row['title']); ?></h4>
+                                        <p><?php echo htmlspecialchars($row['description']); ?></p>
+                                        <a href="course-details.php?id=<?php echo $row['id']; ?>" class="boxed-btn5">Apply
+                                            Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
-                    <?php $first = false;
+                </div>
+                <?php $first = false;
             } ?>
         </div>
     </div>
