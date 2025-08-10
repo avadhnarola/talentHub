@@ -174,12 +174,12 @@ if (isset($_POST['submit'])) {
 <!--/ service_area_start  -->
 
 <!-- popular_program_area_start  -->
-<div class="popular_program_area section__padding program__page">
+<div class="popular_program_area section__padding program__page" id="course">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="section_title text-center">
-                    <h3>Popular Program</h3>
+                    <h3>Popular Courses</h3>
                 </div>
             </div>
         </div>
@@ -265,7 +265,7 @@ if (isset($_POST['submit'])) {
                                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim <br> veniam, quis nostrud
                                 exercitation.</p>
                         </div>
-                        <div class="coures_wrap d-flex">
+                        <div class="coures_wrap d-flex flex-wrap">
                             <?php while ($row = mysqli_fetch_assoc($latestCOurses)) { ?>
                                 <div class="single_wrap">
                                     <div class="icon">
@@ -273,15 +273,17 @@ if (isset($_POST['submit'])) {
                                     </div>
                                     <h4><?php echo $row['title']; ?></h4>
                                     <p><?php echo $row['description']; ?></p>
-                                    <a href="#" class="boxed-btn5">Apply NOw</a>
+                                    <a href="course-details.php?id=<?php echo $row['id']; ?>" class="boxed-btn5">Apply
+                                        Now</a>
                                 </div>
-                            <?php } ?>
-                        </div>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!--/ latest_coures_area_end -->
 
@@ -379,66 +381,7 @@ if (isset($_POST['submit'])) {
 </div>
 <!--/ latest_coures_area_end -->
 
-
-<!-- recent_news_area_start  -->
-<div class="recent_news_area section__padding">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-                <div class="section_title text-center mb-70">
-                    <h3 class="mb-45">Recent News</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="single__news">
-                    <div class="thumb">
-                        <a href="single-blog.php">
-                            <img src="img/news/1.png" alt="">
-                        </a>
-                        <span class="badge">Group Study</span>
-                    </div>
-                    <div class="news_info">
-                        <a href="single-blog.php">
-                            <h4>Those Other College Expenses You
-                                Aren’t Thinking About</h4>
-                        </a>
-                        <p class="d-flex align-items-center"> <span><i class="flaticon-calendar-1"></i> May 10,
-                                2020</span>
-
-                            <span> <i class="flaticon-comment"></i> 01 comments</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="single__news">
-                    <div class="thumb">
-                        <a href="single-blog.html">
-                            <img src="img/news/2.png" alt="">
-                        </a>
-                        <span class="badge bandge_2">Hall Life</span>
-                    </div>
-                    <div class="news_info">
-                        <a href="single-blog.html">
-                            <h4>Those Other College Expenses You
-                                Aren’t Thinking About</h4>
-                        </a>
-                        <p class="d-flex align-items-center"> <span><i class="flaticon-calendar-1"></i> May 10,
-                                2020</span>
-
-                            <span> <i class="flaticon-comment"></i> 01 comments</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- recent_news_area_end  -->
+<div style="margin-top:150px;"></div>
 
 <?php include 'front_footer.php'; ?>
 

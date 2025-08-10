@@ -22,12 +22,12 @@ $category_query = mysqli_query($con, "SELECT DISTINCT category FROM courses");
 <!-- bradcam_area_end -->
 
 <!-- popular_program_area_start -->
-<div class="popular_program_area section__padding program__page">
+<div class="popular_program_area section__padding program__page"  id="course">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="section_title text-center">
-                    <h3>Popular Program</h3>
+                    <h3>Popular Courses</h3>
                 </div>
             </div>
         </div>

@@ -2444,6 +2444,7 @@ h3 {
   text-transform: capitalize;
   margin-bottom: 25px;
   font-family: "Poppins", sans-serif;
+  text-align: center;
 }
 
 @media (max-width: 767px) {
