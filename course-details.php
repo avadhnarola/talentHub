@@ -53,7 +53,7 @@ if (!$course) {
                         <p><?php echo nl2br(htmlspecialchars($course['description'])); ?></p>
                         
                         <h4>Course Duration:</h4>
-                        <p><?php echo htmlspecialchars($course['duration']); ?></p>
+                        <p><?php echo htmlspecialchars($course['duration']); ?> Weeks</p>
                         
                         <h4>Price:</h4>
                         <p>$<?php echo number_format($course['price'], 2); ?></p>
@@ -70,7 +70,7 @@ if (!$course) {
                     <div class="course_info">
                         <h4>Course Info</h4>
                         <ul>
-                            <li><strong>Instructor:</strong> <?php echo htmlspecialchars($course['instructor']); ?></li>
+                           
                             <li><strong>Category:</strong> <?php echo htmlspecialchars($course['category']); ?></li>
                             <li><strong>Start Date:</strong> <?php echo htmlspecialchars($course['start_date']); ?></li>
                             <li><strong>End Date:</strong> <?php echo htmlspecialchars($course['end_date']); ?></li>
