@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2025 at 07:44 AM
+-- Generation Time: Aug 12, 2025 at 05:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,7 +64,7 @@ CREATE TABLE `admission` (
 --
 
 INSERT INTO `admission` (`id`, `fname`, `lname`, `phoneNo`, `email`, `application`) VALUES
-(1, 'Avadh', 'Narola', 9601833510, 'avadh@g.co', 'i want to apply for the FYBCA 2025-26'),
+(1, 'Saniya', 'Markana', 9601833510, 'sanu25@g.co', 'i want to apply for the FYBCA 2025-26'),
 (2, 'Avadh', 'Narola', 9601833510, 'avadh@g.co', 'i want to apply for the FYBCA 2025-26'),
 (7, 'Tirth', 'Narola', 9605563540, 'tirth@gmail.com', 'This is a best'),
 (8, 'Kayra', 'Narola', 6351036225, 'kayra8811@gmail.com', 'hdsdgshd'),
@@ -162,6 +162,29 @@ INSERT INTO `slider` (`slider_id`, `title`, `image`) VALUES
 (7, 'Education is the passport to the future.', 'slider2.jpg'),
 (8, 'Knowledge is power.', 'slider1.avif');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` text NOT NULL,
+  `password` text NOT NULL,
+  `profile_img` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `profile_img`) VALUES
+(3, 'Saniya Markana', 'sanu@gmail.com', 'saniya', 'admin/image/1754995734_user-profile.jpg'),
+(4, 'Tirthbhai', 'abc@gmail.com', '123', 'admin/image/default.png'),
+(5, 'Avadh Narola', 'avadh@gmail.com', 'avadh123', 'admin/image/1754997373_kavu.JPG');
+
 --
 -- Indexes for dumped tables
 --
@@ -197,6 +220,13 @@ ALTER TABLE `slider`
   ADD PRIMARY KEY (`slider_id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -229,6 +259,12 @@ ALTER TABLE `events`
 --
 ALTER TABLE `slider`
   MODIFY `slider_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
