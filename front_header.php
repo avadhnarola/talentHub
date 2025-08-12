@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -12,6 +18,7 @@
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
     <!-- Your extra CSS -->
     <link rel="stylesheet" href="css/owl.carousel.min.css">
@@ -39,6 +46,15 @@
             object-fit: cover;
             border: 2px solid #ddd;
         }
+
+        .avatar-header {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+            margin-right: 10px;
+        }
     </style>
 </head>
 
@@ -46,30 +62,29 @@
     <!-- header-start -->
     <header>
         <div class="header-area">
-            <div class="header-top_area">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="header_top_wrap d-flex justify-content-between align-items-center">
-                                <div class="text_wrap">
-                                    <p><span>+880166 253 232</span> <span>info@domain.com</span></p>
-                                </div>
-                                <div class="text_wrap">
-                                    <?php if (isset($_SESSION['user_id'])): ?>
-                                        <p>
-                                            <a href="profile.php"><i class="ti-user"></i> My Account</a>
-                                            <a href="logout.php">Logout</a>
-                                        </p>
-                                    <?php else: ?>
-                                        <p>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i
-                                                    class="ti-user"></i> Login</a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
-                                        </p>
-                                    <?php endif; ?>
-                                </div>
+            <div class="header-top_area p-2 border-bottom " style="background-color: #234262; color: #fff;">
+                <div class="container d-flex justify-content-between align-items-center">
+                    <span>📞 +880166 253 232 | ✉ info@domain.com</span>
+                    <div>
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <img src="<?php echo htmlspecialchars($_SESSION['profile_img']); ?>" class="avatar-header"
+                                alt="">
+                            <span><i class="bx bx-user"></i> Welcome,
+                                <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                            <a href="logout.php" class="btn btn-sm btn-outline-danger ms-2">Logout</a>
+                        <?php else: ?>
+                            <div style="display: flex; align-items: center; color: #fff;">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                                    class="btn " style="color: #fff;">
+                                    <i class="bx bx-user" style="font-size: 16px;"></i>  Login
+                                </a> | 
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"
+                                    class="btn" style="color: #fff;">
+                                    <i class="bx bx-user-plus" style="font-size: 19px;"></i> Register
+                                </a>
                             </div>
-                        </div>
+                        <?php endif; ?>
+
                     </div>
                 </div>
             </div>
@@ -159,15 +174,16 @@
                         <!-- Avatar Upload -->
                         <div class="mb-3 text-center">
                             <label for="avatar" class="form-label d-block">Profile Avatar</label>
-                            <img id="avatarPreview" src="./admin/image/user-profile.jpg"
-                                alt="Avatar Preview" class="avatar-preview mb-2">
+                            <img id="avatarPreview" src="./admin/image/user-profile.jpg" alt="Avatar Preview"
+                                class="avatar-preview mb-2">
                             <input type="file" name="avatar" id="avatar" class="form-control" accept="image/*"
                                 onchange="previewAvatar(event)">
                         </div>
 
                         <div class="mb-3">
                             <label>Full Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter full name" required>
+                            <input type="text" name="username" class="form-control" placeholder="Enter full name"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label>Email</label>

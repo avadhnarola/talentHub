@@ -116,9 +116,9 @@ if (isset($_POST['submit'])) {
                         <div class="col-xl-12">
                             <div class="slider_text">
                                 <h3 class="slider-title"><?php echo $row['title']; ?></h3>
-                                <div class="row">
-                                    <a href="#" class="boxed-btn3">Get Start</a>
-                                    <a href="#" class="boxed-btn4 ml-2">Take a tour</a>
+                                <div class="row" style="flex-wrap: nowrap;">
+                                    <a href="#" class="boxed-btn3" style="width:250px;">Get Start</a>
+                                    <a href="#" class="boxed-btn4" style="width:250px; margin-left: 20px;">Take a tour</a>
                                 </div>
                             </div>
                         </div>
