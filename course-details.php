@@ -65,7 +65,8 @@ if (!$course) {
             <div class="col-lg-4">
                 <div class="course_sidebar">
                     <div class="apply_btn mb-3">
-                        <a href="Admissions.php?course_id=<?php echo $course['id']; ?>" class="boxed-btn3 w-100">Apply Now</a>
+                        <a href="pricing.php?course_id=<?php echo $course['id']; ?>" class="boxed-btn3 w-100">Apply Now</a>
+
                     </div>
                     <div class="course_info">
                         <h4>Course Info</h4>
