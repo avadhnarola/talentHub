@@ -77,7 +77,27 @@ if (!$course) {
 .apply-btn:hover {
     background: #0056b3;
 }
+
+/* Top alert styling */
+.top-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    border-radius: 0;
+    display: none;
+}
 </style>
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Top Alert -->
+<div id="loginAlert" class="alert alert-warning text-center top-alert" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    You must be logged in to apply. Redirecting to home...
+</div>
 
 <div class="pricing-section">
     <div class="pricing-card">
@@ -90,10 +110,33 @@ if (!$course) {
             <p class="description"><?php echo nl2br(htmlspecialchars($course['description'])); ?></p>
             <p>Course Duration: <?php echo htmlspecialchars($course['duration']); ?> Weeks</p>
             <div class="price-tag">$<?php echo number_format($course['price'], 2); ?></div>
-            <a href="payment.php?course_id=<?php echo $course_id; ?>" class="apply-btn">Proceed to Apply</a>
 
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="payment.php?course_id=<?php echo $course_id; ?>" class="apply-btn">Proceed to Apply</a>
+            <?php else: ?>
+                <button id="loginAlertBtn" class="apply-btn">Proceed to Apply</button>
+            <?php endif; ?>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const loginBtn = document.getElementById("loginAlertBtn");
+    const alertBox = document.getElementById("loginAlert");
+
+    if (loginBtn) {
+        loginBtn.addEventListener("click", function() {
+            // Show top alert
+            alertBox.style.display = "block";
+
+            // Redirect after 2.5 seconds
+            setTimeout(function() {
+                window.location.href = "index.php";
+            }, 2500);
+        });
+    }
+});
+</script>
 
 <?php include 'front_footer.php'; ?>

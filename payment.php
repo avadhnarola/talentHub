@@ -22,7 +22,10 @@ if (!$course) {
     exit;
 }
 
-$coursePrice = number_format($course['price'], 2, '.', '');
+$usdPrice = number_format($course['price'], 2, '.', ''); // Price in USD
+$conversionRate = 83; // 1 USD = ₹83 (you can update this rate)
+$inrPrice = number_format($usdPrice * $conversionRate, 2, '.', ''); // Converted INR value
+
 $courseTitle = urlencode($course['title']);
 $upiID = "9601833510@upi"; // Your UPI ID
 ?>
@@ -116,7 +119,11 @@ $upiID = "9601833510@upi"; // Your UPI ID
 <div class="payment-section">
     <div class="payment-card">
         <h2>Pay for: <?php echo htmlspecialchars($course['title']); ?></h2>
-        <p><strong>Amount:</strong> $<?php echo $coursePrice; ?></p>
+        <p>
+            <strong>Amount:</strong> 
+            $<?php echo $usdPrice; ?> 
+            OR ₹<?php echo $inrPrice; ?>
+        </p>
         <h3>Select Payment Method</h3>
 
         <div class="payment-options">
@@ -158,7 +165,7 @@ $upiID = "9601833510@upi"; // Your UPI ID
 </div>
 
 <script>
-    const coursePrice = "<?php echo $coursePrice; ?>";
+    const coursePrice = "<?php echo $inrPrice; ?>"; // INR value for payment
     const courseTitle = "<?php echo $courseTitle; ?>";
     const upiID = "<?php echo $upiID; ?>";
 
@@ -177,7 +184,7 @@ $upiID = "9601833510@upi"; // Your UPI ID
 
             if (method === 'upi') {
                 let upiLink = `upi://pay?pa=${encodeURIComponent(upiID)}&pn=Your%20Institute&am=${coursePrice}&cu=INR&tn=${courseTitle}`;
-                let qrUrl = `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${encodeURIComponent(upiLink)}`;
+                let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
                 qrImage.src = qrUrl;
                 qrSection.classList.remove('hidden');
             } else if (method === 'card') {
