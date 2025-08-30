@@ -146,7 +146,7 @@ $upiID = "9601833510@upi"; // Your UPI ID
             <p>Scan the QR code to complete the payment</p>
             <img id="qr-image" src="" alt="QR Code">
             <br>
-            <a href="Admissions.php?course_id=<?php echo $course_id; ?>" class="pay-btn">I Have Paid</a>
+            <a href="course_material.php?course_id=<?php echo $course_id; ?>" class="pay-btn">I Have Paid</a>
         </div>
 
         <!-- Debit Card Form -->
