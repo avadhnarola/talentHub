@@ -181,25 +181,7 @@ ob_start();
                         </ul>
                     </li>
 
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon bx bx-library"></i> 
-                            <div data-i18n="Layouts">Materials</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="addMaterials.php" class="menu-link">
-                                    <div data-i18n="Without menu">Add Materials</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="viewMaterials.php" class="menu-link">
-                                    <div data-i18n="Without navbar">View Materials</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
+                    
                     <li class="menu-item">
                         <a href="viewAdmission.php" class="menu-link ">
                             <i class="menu-icon bx bxs-school" ></i> 

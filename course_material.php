@@ -139,16 +139,7 @@ if (!$course) {
     <div class="video-section">
         <h2><i class="fas fa-chalkboard-teacher"></i> Course Learning Videos</h2>
 
-        <!-- Video 1 -->
-        <div class="video-block">
-            <div class="video-info">
-                <div class="video-icon"><i class="fas fa-play-circle"></i></div>
-                <h3>Welcome & Introduction</h3>
-                <p>Start your journey with an overview of the course. Understand learning goals and how each section
-                    builds your knowledge.</p>
-            </div>
-            <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY" allowfullscreen></iframe>
-        </div>
+     
 
         <!-- Video 2 -->
         <div class="video-block">

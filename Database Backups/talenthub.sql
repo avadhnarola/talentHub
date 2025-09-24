@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2025 at 06:08 PM
+-- Generation Time: Sep 24, 2025 at 02:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,11 +65,35 @@ CREATE TABLE `admission` (
 
 INSERT INTO `admission` (`id`, `fname`, `lname`, `phoneNo`, `email`, `application`) VALUES
 (1, 'Saniya', 'Markana', 9601833510, 'sanu25@g.co', 'i want to apply for the FYBCA 2025-26'),
-(2, 'Avadh', 'Narola', 9601833510, 'avadh@g.co', 'i want to apply for the FYBCA 2025-26'),
 (7, 'Tirth', 'Narola', 9605563540, 'tirth@gmail.com', 'This is a best'),
-(8, 'Kayra', 'Narola', 6351036225, 'kayra8811@gmail.com', 'hdsdgshd'),
 (9, 'Saniya', 'Markana', 8140047020, 'sanu@gmail.com', 'This is application for the admission in FY Bsc DataScience'),
 (16, 'Kayra', 'Narola', 9601933510, 'kavu@gmail.com', 'This is a application for admission in this course');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coursebookings`
+--
+
+CREATE TABLE `coursebookings` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `method` varchar(50) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `status` enum('pending','success','failed') DEFAULT 'pending',
+  `transaction_id` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `coursebookings`
+--
+
+INSERT INTO `coursebookings` (`id`, `course_id`, `user_id`, `method`, `amount`, `status`, `transaction_id`, `created_at`) VALUES
+(4, 2, 5, 'upi', 33117.00, 'success', 'TXN68d376ab3fac2', '2025-09-24 04:42:19'),
+(8, 1, 7, 'upi', 16517.00, 'pending', 'TXN68D37C47B9E3C', '2025-09-24 05:06:15'),
+(9, 12, 7, 'upi', 49717.00, 'success', 'TXN68D3DF2B283BC', '2025-09-24 12:08:11');
 
 -- --------------------------------------------------------
 
@@ -184,7 +208,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `profile_img`) VALUES
 (3, 'Saniya Markana', 'sanu@gmail.com', 'saniya', 'admin/image/1754995734_user-profile.jpg'),
 (4, 'Tirthbhai', 'abc@gmail.com', '123', 'admin/image/default.png'),
-(5, 'Avadh Narola', 'avadh@gmail.com', 'avadh123', 'admin/image/1754997373_kavu.JPG');
+(5, 'Avadh Narola', 'avadh@gmail.com', 'avadh123', 'admin/image/1754997373_kavu.JPG'),
+(6, 'Saniya M Markana', 'saniya@gmail.com', 'saniya123', 'admin/image/default.png'),
+(7, 'User', 'user@gmail.com', '123', 'admin/image/default.png');
 
 --
 -- Indexes for dumped tables
@@ -201,6 +227,14 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `admission`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coursebookings`
+--
+ALTER TABLE `coursebookings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `course_id` (`course_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `courses`
@@ -244,6 +278,12 @@ ALTER TABLE `admission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT for table `coursebookings`
+--
+ALTER TABLE `coursebookings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
@@ -265,7 +305,18 @@ ALTER TABLE `slider`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `coursebookings`
+--
+ALTER TABLE `coursebookings`
+  ADD CONSTRAINT `coursebookings_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+  ADD CONSTRAINT `coursebookings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

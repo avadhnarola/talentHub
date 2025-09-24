@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2025 at 02:13 PM
+-- Generation Time: Sep 24, 2025 at 02:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,48 +24,47 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `admission`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `admission` (
   `id` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL,
+  `fname` text NOT NULL,
+  `lname` text NOT NULL,
+  `phoneNo` bigint(12) NOT NULL,
   `email` text NOT NULL,
-  `password` text NOT NULL,
-  `profile_img` text NOT NULL
+  `application` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `admission`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `profile_img`) VALUES
-(3, 'Saniya Markana', 'sanu@gmail.com', 'saniya', 'admin/image/1754995734_user-profile.jpg'),
-(4, 'Tirthbhai', 'abc@gmail.com', '123', 'admin/image/default.png'),
-(5, 'Avadh Narola', 'avadh@gmail.com', 'avadh123', 'admin/image/1754997373_kavu.JPG'),
-(6, 'Saniya M Markana', 'saniya@gmail.com', 'saniya123', 'admin/image/default.png'),
-(7, 'User', 'user@gmail.com', '123', 'admin/image/default.png');
+INSERT INTO `admission` (`id`, `fname`, `lname`, `phoneNo`, `email`, `application`) VALUES
+(1, 'Saniya', 'Markana', 9601833510, 'sanu25@g.co', 'i want to apply for the FYBCA 2025-26'),
+(7, 'Tirth', 'Narola', 9605563540, 'tirth@gmail.com', 'This is a best'),
+(9, 'Saniya', 'Markana', 8140047020, 'sanu@gmail.com', 'This is application for the admission in FY Bsc DataScience'),
+(16, 'Kayra', 'Narola', 9601933510, 'kavu@gmail.com', 'This is a application for admission in this course');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `users`
+-- Indexes for table `admission`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+ALTER TABLE `admission`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `admission`
 --
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `admission`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
