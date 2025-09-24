@@ -1,15 +1,31 @@
 <?php
+ob_start();
 include 'front_header.php';
 include 'db.php';
 
+// =============================
+// Force login before payment
+// =============================
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "Please login before making a payment.";
+    header("Location: index.php");
+    exit;
+}
+$user_id = $_SESSION['user_id'];
+
+// =============================
+// Validate course_id
+// =============================
 if (!isset($_GET['course_id']) || !is_numeric($_GET['course_id'])) {
     echo "<p style='color:red; text-align:center;'>Invalid course ID.</p>";
     include 'front_footer.php';
     exit;
 }
-
 $course_id = (int) $_GET['course_id'];
 
+// =============================
+// Fetch course details
+// =============================
 $stmt = $con->prepare("SELECT title, price FROM courses WHERE id = ?");
 $stmt->bind_param("i", $course_id);
 $stmt->execute();
@@ -22,12 +38,76 @@ if (!$course) {
     exit;
 }
 
-$usdPrice = number_format($course['price'], 2, '.', ''); // Price in USD
-$conversionRate = 83; // 1 USD = ₹83 (you can update this rate)
-$inrPrice = number_format($usdPrice * $conversionRate, 2, '.', ''); // Converted INR value
+// Prices
+$usdPrice = number_format($course['price'], 2, '.', '');
+$conversionRate = 83; // Example conversion rate
+$inrPrice = number_format($usdPrice * $conversionRate, 2, '.', '');
 
 $courseTitle = urlencode($course['title']);
-$upiID = "9601833510@upi"; // Your UPI ID
+$upiID = "8140047020@upi"; // Your UPI ID
+
+// =============================
+// Handle payment form submission
+// =============================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_now'])) {
+    $method = $_POST['method']; // 'upi' or 'card'
+    $amount = $inrPrice;
+
+    // ✅ First check if user already booked this course
+    $check = $con->prepare("SELECT id FROM coursebookings WHERE user_id = ? AND course_id = ?");
+    $check->bind_param("ii", $user_id, $course_id);
+    $check->execute();
+    $checkResult = $check->get_result();
+
+    if ($checkResult->num_rows > 0) {
+        // User already booked → Show alert & redirect
+        echo "
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Already Enrolled!',
+                    text: 'You have already booked this course.',
+                    confirmButtonText: 'Go to Home'
+                }).then(() => {
+                    window.location.href = 'index.php';
+                });
+            });
+        </script>
+        ";
+    } else {
+        // ✅ Generate unique transaction id
+        $transaction_id = "TXN" . strtoupper(uniqid());
+        $status = "success";
+
+        $stmt = $con->prepare("INSERT INTO coursebookings 
+            (course_id, user_id, method, amount, status, transaction_id) 
+            VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("iissss", $course_id, $user_id, $method, $amount, $status, $transaction_id);
+
+        if ($stmt->execute()) {
+            // ✅ Show SweetAlert success
+            echo "
+            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Course Booking Successful!',
+                        html: '<b>Transaction ID:</b> $transaction_id',
+                        confirmButtonText: 'Go to Course'
+                    }).then(() => {
+                        window.location.href = 'course_material.php?course_id=$course_id&payment_id={$stmt->insert_id}';
+                    });
+                });
+            </script>
+            ";
+        } else {
+            echo "<p style='color:red; text-align:center;'>Payment record could not be saved.</p>";
+        }
+    }
+}
 ?>
 
 <style>
@@ -109,6 +189,8 @@ $upiID = "9601833510@upi"; // Your UPI ID
         border-radius: 50px;
         text-decoration: none;
         display: inline-block;
+        border: none;
+        cursor: pointer;
     }
 
     .pay-btn:hover {
@@ -120,9 +202,8 @@ $upiID = "9601833510@upi"; // Your UPI ID
     <div class="payment-card">
         <h2>Pay for: <?php echo htmlspecialchars($course['title']); ?></h2>
         <p>
-            <strong>Amount:</strong> 
-            $<?php echo $usdPrice; ?> 
-            OR ₹<?php echo $inrPrice; ?>
+            <strong>Amount:</strong>
+            $<?php echo $usdPrice; ?> OR ₹<?php echo $inrPrice; ?>
         </p>
         <h3>Select Payment Method</h3>
 
@@ -141,31 +222,33 @@ $upiID = "9601833510@upi"; // Your UPI ID
             </div>
         </div>
 
-        <!-- QR Scanner Section -->
-        <div id="qr-section" class="qr-section hidden">
+        <!-- QR Payment -->
+        <form method="POST" id="upi-form" class="hidden">
+            <input type="hidden" name="method" value="upi">
             <p>Scan the QR code to complete the payment</p>
             <img id="qr-image" src="" alt="QR Code">
             <br>
-            <a href="course_material.php?course_id=<?php echo $course_id; ?>" class="pay-btn">I Have Paid</a>
-        </div>
+            <input type="submit" name="pay_now" class="pay-btn" value="I Have Paid">
+        </form>
 
-        <!-- Debit Card Form -->
-        <div id="card-form" class="card-form hidden">
+        <!-- Card Payment -->
+        <form method="POST" id="card-form" class="card-form hidden">
             <label>Cardholder Name</label>
-            <input type="text" placeholder="John Doe">
+            <input type="text" name="card_name" placeholder="John Doe" required>
             <label>Card Number</label>
-            <input type="text" placeholder="1234 5678 9012 3456">
+            <input type="text" name="card_number" placeholder="1234 5678 9012 3456" required>
             <label>Expiry Date</label>
-            <input type="text" placeholder="MM/YY">
+            <input type="text" name="expiry" placeholder="MM/YY" required>
             <label>CVV</label>
-            <input type="password" placeholder="123">
-            <a href="Admissions.php?course_id=<?php echo $course_id; ?>" class="pay-btn">Pay Now</a>
-        </div>
+            <input type="password" name="cvv" placeholder="123" required>
+            <input type="hidden" name="method" value="card">
+            <button type="submit" name="pay_now" class="pay-btn">Pay Now</button>
+        </form>
     </div>
 </div>
 
 <script>
-    const coursePrice = "<?php echo $inrPrice; ?>"; // INR value for payment
+    const coursePrice = "<?php echo $inrPrice; ?>";
     const courseTitle = "<?php echo $courseTitle; ?>";
     const upiID = "<?php echo $upiID; ?>";
 
@@ -175,18 +258,18 @@ $upiID = "9601833510@upi"; // Your UPI ID
             option.classList.add('active');
 
             const method = option.dataset.method;
-            const qrSection = document.getElementById('qr-section');
+            const qrForm = document.getElementById('upi-form');
             const qrImage = document.getElementById('qr-image');
             const cardForm = document.getElementById('card-form');
 
-            qrSection.classList.add('hidden');
+            qrForm.classList.add('hidden');
             cardForm.classList.add('hidden');
 
             if (method === 'upi') {
                 let upiLink = `upi://pay?pa=${encodeURIComponent(upiID)}&pn=Your%20Institute&am=${coursePrice}&cu=INR&tn=${courseTitle}`;
                 let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiLink)}`;
                 qrImage.src = qrUrl;
-                qrSection.classList.remove('hidden');
+                qrForm.classList.remove('hidden');
             } else if (method === 'card') {
                 cardForm.classList.remove('hidden');
             }
