@@ -199,45 +199,6 @@ ob_start();
                     
 
 
-
-                    <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">Pages</span>
-                    </li>
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon bx bx-user"></i>
-                            <div data-i18n="Account Settings">Account Settings</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="pages-account-settings-account.php" class="menu-link">
-                                    <div data-i18n="Account">Account</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-account-settings-notifications.php" class="menu-link">
-                                    <div data-i18n="Notifications">Notifications</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-account-settings-connections.php" class="menu-link">
-                                    <div data-i18n="Connections">Connections</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- Icons -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Icons</span></li>
-
-
-                    <li class="menu-item">
-                        <a href="icons-boxicons.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-crown"></i>
-                            <div data-i18n="Boxicons">Boxicons</div>
-                        </a>
-                    </li>
-
                 </ul>
             </aside>
             <!-- / Menu -->
