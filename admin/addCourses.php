@@ -30,26 +30,6 @@ if (isset($_POST['submit'])) {
     // Calculate end date based on duration
     $end_date = date('Y-m-d', strtotime($start_date . " +$duration weeks"));
 
-    // Handle PDF upload for course material
-    $material_url = $u_data['material_url'] ?? '';
-    if (isset($_FILES['material_url']) && $_FILES['material_url']['error'] == 0) {
-        $allowedExt = ['pdf'];
-        $fileExt = strtolower(pathinfo($_FILES['material_url']['name'], PATHINFO_EXTENSION));
-
-        if (in_array($fileExt, $allowedExt)) {
-            $materialName = time() . "_" . basename($_FILES['material_url']['name']);
-            $materialPath = "materials/" . $materialName;
-
-            if (!is_dir("materials")) {
-                mkdir("materials", 0777, true);
-            }
-            move_uploaded_file($_FILES['material_url']['tmp_name'], $materialPath);
-            $material_url = $materialName;
-        } else {
-            echo "<script>alert('Only PDF files are allowed for course material!');</script>";
-        }
-    }
-
     // Handle image upload
     $img = $u_data['image'] ?? '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {

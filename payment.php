@@ -26,11 +26,8 @@ $course_id = (int) $_GET['course_id'];
 // =============================
 // Fetch course details
 // =============================
-$stmt = $con->prepare("SELECT title, price FROM courses WHERE id = ?");
-$stmt->bind_param("i", $course_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$course = $result->fetch_assoc();
+$courseQuery = mysqli_query($con, "SELECT title, price FROM courses WHERE id = $course_id LIMIT 1");
+$course = mysqli_fetch_assoc($courseQuery);
 
 if (!$course) {
     echo "<p style='color:red; text-align:center;'>Course not found.</p>";
@@ -54,12 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_now'])) {
     $amount = $inrPrice;
 
     // ✅ First check if user already booked this course
-    $check = $con->prepare("SELECT id FROM coursebookings WHERE user_id = ? AND course_id = ?");
-    $check->bind_param("ii", $user_id, $course_id);
-    $check->execute();
-    $checkResult = $check->get_result();
+    $check = mysqli_query($con, "SELECT id FROM coursebookings WHERE user_id = $user_id AND course_id = $course_id LIMIT 1");
 
-    if ($checkResult->num_rows > 0) {
+    if (mysqli_num_rows($check) > 0) {
         // User already booked → Show alert & redirect
         echo "
         <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
@@ -78,16 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_now'])) {
         ";
     } else {
         // ✅ Generate unique transaction id
-        $transaction_id = "TXN" . strtoupper(uniqid());
-        $status = "success";
+        $transaction_id = 'TXN' . strtoupper(uniqid());
+        $status = 'success';
 
-        $stmt = $con->prepare("INSERT INTO coursebookings 
+        $insert = mysqli_query($con, "INSERT INTO coursebookings 
             (course_id, user_id, method, amount, status, transaction_id) 
-            VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("iissss", $course_id, $user_id, $method, $amount, $status, $transaction_id);
+            VALUES ('$course_id', '$user_id', '$method', '$amount', '$status', '$transaction_id')");
 
-        if ($stmt->execute()) {
-            // ✅ Show SweetAlert success
+        if ($insert) {
+            $payment_id = mysqli_insert_id($con);
             echo "
             <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
             <script>
@@ -98,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_now'])) {
                         html: '<b>Transaction ID:</b> $transaction_id',
                         confirmButtonText: 'Go to Course'
                     }).then(() => {
-                        window.location.href = 'course_material.php?course_id=$course_id&payment_id={$stmt->insert_id}';
+                        window.location.href = 'course_material.php?course_id=$course_id&payment_id=$payment_id';
                     });
                 });
             </script>

@@ -2,7 +2,9 @@
 include 'front_header.php';
 include 'db.php';
 
+// =============================
 // Validate course_id
+// =============================
 if (!isset($_GET['course_id']) || !is_numeric($_GET['course_id'])) {
     echo "<p style='color:red; text-align:center;'>Invalid course ID.</p>";
     include 'front_footer.php';
@@ -11,13 +13,11 @@ if (!isset($_GET['course_id']) || !is_numeric($_GET['course_id'])) {
 
 $course_id = (int) $_GET['course_id'];
 
-// Fetch course details
-$stmt = $con->prepare("SELECT title, description FROM courses WHERE id = ? LIMIT 1");
-$stmt->bind_param("i", $course_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$course = $result->fetch_assoc();
-$stmt->close();
+// =============================
+// Fetch course details (simple query)
+// =============================
+$courseResult = mysqli_query($con, "SELECT title, description FROM courses WHERE id = $course_id LIMIT 1");
+$course = mysqli_fetch_assoc($courseResult);
 
 if (!$course) {
     echo "<p style='color:red; text-align:center;'>Course not found.</p>";
@@ -139,7 +139,15 @@ if (!$course) {
     <div class="video-section">
         <h2><i class="fas fa-chalkboard-teacher"></i> Course Learning Videos</h2>
 
-     
+        <!-- Video 1 -->
+        <div class="video-block">
+            <div class="video-info">
+                <div class="video-icon"><i class="fas fa-play-circle"></i></div>
+                <h3>Introduction to the Course</h3>
+                <p>Get an overview of the course and understand what you will learn in this journey.</p>
+            </div>
+            <iframe src="https://www.youtube.com/embed/kpUSX9fZf8g" allowfullscreen></iframe>
+        </div>
 
         <!-- Video 2 -->
         <div class="video-block">
@@ -149,21 +157,10 @@ if (!$course) {
                 <p>Dive deep into the fundamentals with clear explanations and examples that help you master the subject
                     step by step.</p>
             </div>
-            <iframe src="https://www.youtube.com/embed/kpUSX9fZf8g" allowfullscreen></iframe>
-        </div>
-
-        <!-- Video 3 -->
-        <div class="video-block">
-            <div class="video-info">
-                <div class="video-icon"><i class="fas fa-lightbulb"></i></div>
-                <h3>Advanced Applications</h3>
-                <p>Apply your learning to real-world problems. This advanced module shows practical use-cases and expert
-                    tips to excel.</p>
-            </div>
             <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" allowfullscreen></iframe>
         </div>
 
-        <!-- Video 4 -->
+        <!-- Video 3 -->
         <div class="video-block">
             <div class="video-info">
                 <div class="video-icon"><i class="fas fa-laptop-code"></i></div>
@@ -174,7 +171,7 @@ if (!$course) {
             <iframe src="https://www.youtube.com/embed/rfscVS0vtbw" allowfullscreen></iframe>
         </div>
 
-        <!-- Video 5 -->
+        <!-- Video 4 -->
         <div class="video-block">
             <div class="video-info">
                 <div class="video-icon"><i class="fas fa-users"></i></div>
@@ -184,7 +181,7 @@ if (!$course) {
             <iframe src="https://www.youtube.com/embed/HAnw168huqA" allowfullscreen></iframe>
         </div>
 
-        <!-- Video 6 -->
+        <!-- Video 5 -->
         <div class="video-block">
             <div class="video-info">
                 <div class="video-icon"><i class="fas fa-brain"></i></div>

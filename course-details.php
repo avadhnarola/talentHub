@@ -2,7 +2,9 @@
 include 'front_header.php';
 include 'db.php'; // Database connection
 
-// Check if course ID is provided
+// =============================
+// Validate course_id
+// =============================
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     echo "<p style='color:red; text-align:center;'>Invalid course ID.</p>";
     include 'front_footer.php';
@@ -11,12 +13,11 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $course_id = (int) $_GET['id'];
 
-// Fetch course from DB
-$stmt = $con->prepare("SELECT * FROM courses WHERE id = ?");
-$stmt->bind_param("i", $course_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$course = $result->fetch_assoc();
+// =============================
+// Fetch course (simple query)
+// =============================
+$result = mysqli_query($con, "SELECT * FROM courses WHERE id = $course_id LIMIT 1");
+$course = mysqli_fetch_assoc($result);
 
 if (!$course) {
     echo "<p style='color:red; text-align:center;'>Course not found.</p>";
@@ -66,12 +67,10 @@ if (!$course) {
                 <div class="course_sidebar">
                     <div class="apply_btn mb-3">
                         <a href="pricing.php?course_id=<?php echo $course['id']; ?>" class="boxed-btn3 w-100">Apply Now</a>
-
                     </div>
                     <div class="course_info">
                         <h4>Course Info</h4>
                         <ul>
-                           
                             <li><strong>Category:</strong> <?php echo htmlspecialchars($course['category']); ?></li>
                             <li><strong>Start Date:</strong> <?php echo htmlspecialchars($course['start_date']); ?></li>
                             <li><strong>End Date:</strong> <?php echo htmlspecialchars($course['end_date']); ?></li>

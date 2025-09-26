@@ -24,12 +24,12 @@ if (isset($_POST['submit'])) {
 
     if($slider_id){
       mysqli_query($con, "update slider set title='$title', image='$image' where slider_id=$slider_id");
-      header("location:v_slider.php");
+      header("location:viewSlider.php");
 
     }else{
 
       mysqli_query($con, "insert into slider(title,image) values('$title','$image')");
-      header("location:./v_slider.php");
+      header("location:./viewSlider.php");
     }
    
 
